@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -30,8 +31,15 @@ public class HolidayController {
     @GetMapping("/holidays/{id}")
     Holiday one(@PathVariable Long id) {
         log.info("Get '/holidays/" + id + "'");
+        HolidayRepository hr = this.repository;
+        Optional<Holiday> h = hr.findById(id);
 
-        return this.repository.findById(id).orElseThrow(() -> new HolidayNotFoundException(id));
+        if(h == null)
+            throw new HolidayNotFoundException(id);
+
+        return h.get();
+
+        //return this.repository.findById(id).orElseThrow(() -> new HolidayNotFoundException(id));
     }
 
 }

@@ -1,29 +1,36 @@
 package ca.pcraig3.holidays.province;
 
-import lombok.Data;
-import org.springframework.lang.Nullable;
+import ca.pcraig3.holidays.holiday.Holiday;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
 @Entity
 @Table(name="PROVINCE")
+@ToString
 public class Province {
 
     @Id
     @NotNull
     @Column(name="ID")
     private String id;
+
     @NotNull
     @Column(name="NAME_EN")
     private String nameEn;
+
     @NotNull
     @Column(name="NAME_FR")
     private String nameFr;
+
+    @ManyToMany(mappedBy = "provinces")
+    @JsonIgnore
+    private final Set<Holiday> holidays = new HashSet<>();
 
     Province() {}
 
@@ -31,5 +38,51 @@ public class Province {
         this.id = id;
         this.nameEn = nameEn;
         this.nameFr = nameFr;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public String getNameFr() {
+        return nameFr;
+    }
+
+    public Set<Holiday> getHolidays() {
+        return holidays;
+    }
+
+    public void addHoliday(Holiday holiday) {
+        this.holidays.add(holiday);
+        holiday.getProvinces().add(this);
+    }
+
+    public void removeHoliday(Holiday holiday) {
+        this.holidays.remove(holiday);
+        holiday.getProvinces().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Province province = (Province) o;
+
+        if (!id.equals(province.id)) return false;
+        if (!nameEn.equals(province.nameEn)) return false;
+        return nameFr.equals(province.nameFr);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + nameEn.hashCode();
+        result = 31 * result + nameFr.hashCode();
+        return result;
     }
 }
