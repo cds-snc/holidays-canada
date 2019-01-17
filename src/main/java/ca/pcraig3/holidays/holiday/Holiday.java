@@ -76,16 +76,6 @@ public class Holiday {
         return provinces;
     }
 
-    public void addProvince(Province province) {
-        this.provinces.add(province);
-        province.getHolidays().add(this);
-    }
-
-    public void removeProvince(Province province) {
-        this.provinces.remove(province);
-        province.getHolidays().remove(this);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
