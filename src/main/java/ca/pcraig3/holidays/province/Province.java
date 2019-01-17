@@ -1,4 +1,4 @@
-package ca.pcraig3.holidays;
+package ca.pcraig3.holidays.province;
 
 import lombok.Data;
 import org.springframework.lang.Nullable;

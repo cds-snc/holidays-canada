@@ -1,4 +1,4 @@
-package ca.pcraig3.holidays;
+package ca.pcraig3.holidays.province;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-
 public class ProvinceController {
 
     private final ProvinceRepository repository;

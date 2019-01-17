@@ -1,4 +1,4 @@
-package ca.pcraig3.holidays;
+package ca.pcraig3.holidays.province;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
