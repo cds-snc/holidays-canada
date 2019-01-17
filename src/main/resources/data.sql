@@ -1,0 +1,13 @@
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('AB', 'Alberta', 'Alberta');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('BC', 'British Columbia', 'Colombie-Britannique');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('MB', 'Manitoba', 'Manitoba');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('NB', 'New Brunswick', 'Nouveau-Brunswick');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('NL', 'Newfoundland and Labrador', 'Terre-Neuve-et-Labrador');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('NS', 'Nova Scotia', 'Nouvelle-Écosse');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('NT', 'Northwest Territories', 'Territoires du Nord-Ouest');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('NU', 'Nunavut', 'Nunavut');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('ON', 'Ontario', 'Ontario');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('PE', 'Prince Edward Island', 'Île-du-Prince-Édouard');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('QC', 'Quebec', 'Québec');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('SK', 'Saskatchewan', 'Saskatchewan');
+INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('YT', 'Yukon', 'Yukon');
