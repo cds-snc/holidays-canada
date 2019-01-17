@@ -11,3 +11,6 @@ INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('PE', 'Prince Edward Island'
 INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('QC', 'Quebec', 'Québec');
 INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('SK', 'Saskatchewan', 'Saskatchewan');
 INSERT INTO PROVINCE (ID, NAME_EN, NAME_FR) VALUES ('YT', 'Yukon', 'Yukon');
+
+INSERT INTO HOLIDAY (DATE, NAME_EN, NAME_FR) VALUES ('January 1', 'New Year’s Day', 'Jour de l’An');
+INSERT INTO HOLIDAY (DATE, NAME_EN, NAME_FR) VALUES ('Second Monday in February', 'Family Day', 'Fête de la famille');
