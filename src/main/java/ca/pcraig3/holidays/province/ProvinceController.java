@@ -18,18 +18,16 @@ public class ProvinceController {
 
     @GetMapping("/provinces")
     List<Province> all() {
+        log.info("Get all '/provinces/'");
+
+
         return this.repository.findAll();
     }
 
     @GetMapping("/provinces/{id}")
-    Province one(@PathVariable String id) throws ProvinceNotFoundException {
-        log.info("Request for '/provinces/" + id + "'");
+    Province one(@PathVariable String id) {
+        log.info("Get '/provinces/" + id + "'");
 
-        Province p = this.repository.findById(id.toUpperCase());
-
-        if(p == null)
-            throw new ProvinceNotFoundException(id);
-
-        return p;
+        return this.repository.findById(id.toUpperCase()).orElseThrow(() -> new ProvinceNotFoundException(id));
     }
 }
