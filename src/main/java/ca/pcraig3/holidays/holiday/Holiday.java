@@ -20,7 +20,7 @@ public class Holiday {
     private Long id;
 
     @NotNull
-    @Column(name="DATE")
+    @Column(name="DATE_STRING")
     private String date;
 
     @NotNull
