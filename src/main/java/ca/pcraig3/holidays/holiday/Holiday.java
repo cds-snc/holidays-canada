@@ -2,6 +2,7 @@ package ca.pcraig3.holidays.holiday;
 
 import ca.pcraig3.holidays.province.Province;
 import lombok.ToString;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -44,11 +45,12 @@ public class Holiday {
     )
     private final Set<Province> provinces = new HashSet<>();
 
-    // isRelative
-    // provinces
-    // isNational
+    @Formula("(SELECT COUNT(*) FROM HOLIDAY_PROVINCE hp WHERE hp.HOLIDAY_ID = ID) = 13")
+    private boolean isNational;
 
-    Holiday () {}
+    // isRelative
+
+    protected Holiday () {}
 
     Holiday(@NotNull String date, @NotNull String nameEn, @NotNull String nameFr) {
         this.date = date;
@@ -75,6 +77,8 @@ public class Holiday {
     public Set<Province> getProvinces() {
         return provinces;
     }
+
+    public boolean getNational() { return isNational; }
 
     @Override
     public boolean equals(Object o) {

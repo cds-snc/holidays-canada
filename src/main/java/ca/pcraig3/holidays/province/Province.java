@@ -2,7 +2,6 @@ package ca.pcraig3.holidays.province;
 
 import ca.pcraig3.holidays.holiday.Holiday;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -32,7 +31,7 @@ public class Province {
     @JsonIgnore
     private final Set<Holiday> holidays = new HashSet<>();
 
-    Province() {}
+    protected Province() {}
 
     Province(String id, String nameEn, String nameFr) {
         this.id = id;
