@@ -13,9 +13,4 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
             "join h.provinces province " +
             "where province.id = ?1")
     List<Holiday> findByProvinceId(String provinceId);
-
-    @Query("select h from Holiday h " +
-            "join h.provinces province " +
-            "where upper(province.nameEn) like %?1% OR upper(province.nameFr) like %?1%")
-    List<Holiday> findByProvinceName(String name);
 }

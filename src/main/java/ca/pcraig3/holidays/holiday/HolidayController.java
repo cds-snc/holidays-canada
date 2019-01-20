@@ -24,7 +24,7 @@ public class HolidayController {
     }
 
     @GetMapping("/holidays")
-    List<Holiday> all(@RequestParam(value = "national", required=false) Boolean national, @RequestParam(value = "province", required=false) String province) {
+    List<Holiday> all(@RequestParam(value = "national", required=false) Boolean national, @RequestParam(value = "province", required=false) String provinceId) {
 
         if(national != null) {
             String message = national ? "national" : "non-national";
@@ -34,18 +34,16 @@ public class HolidayController {
         }
 
         // string should not be null or empty
-        if(!StringUtils.isEmpty(province)){
-            province = province.toUpperCase();
+        if(!StringUtils.isEmpty(provinceId)){
+            provinceId = provinceId.toUpperCase();
 
-            if(Province.isProvinceId(province)) {
-                log.info(String.format("Get '/holidays' for province ID '%s'", province));
-                return this.repository.findByProvinceId(province);
-            }
+            // make sure we have a valid province ID
+            if(!Province.isProvinceId(provinceId))
+                throw new RuntimeException(String.format("Province '%s' is not a real province or territory.", provinceId));
 
-            log.info(String.format("Get '/holidays' for province name '%s'", province));
-            return this.repository.findByProvinceName(province);
+             log.info(String.format("Get '/holidays' for province '%s'", provinceId));
+             return this.repository.findByProvinceId(provinceId);
         }
-
 
         log.info("Get all '/holidays'");
         return this.repository.findAll();
