@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -28,9 +29,10 @@ public class HolidayController {
 
         if(national != null) {
             String message = national ? "national" : "non-national";
-            log.info(String.format("Get all %s '/holidays'", message));
 
-            return this.repository.findByIsNational(national);
+            List<Holiday> h = this.repository.findByIsNational(national);
+            log.info(String.format("Get all %s '/holidays'. Found: %d.", message, h.size()));
+            return h;
         }
 
         // string should not be null or empty
@@ -39,14 +41,17 @@ public class HolidayController {
 
             // make sure we have a valid province ID
             if(!Province.isProvinceId(provinceId))
-                throw new RuntimeException(String.format("Province '%s' is not a real province or territory.", provinceId));
+                throw new RuntimeException(String.format("Error: '%s' is not a valid Canadian postal abbreviation. Accepted options are: [%s].", provinceId, String.join(", ", Province.PROVINCE_IDS)));
 
-             log.info(String.format("Get '/holidays' for province '%s'", provinceId));
-             return this.repository.findByProvinceId(provinceId);
+            List<Holiday> h = this.repository.findByProvinceId(provinceId);
+            log.info(String.format("Get '/holidays' for province '%s'. Found: %d.", provinceId, h.size()));
+            return h;
         }
 
-        log.info("Get all '/holidays'");
-        return this.repository.findAll();
+
+        List<Holiday> h = this.repository.findAll();
+        log.info(String.format("Get all '/holidays'. Found: %d.", h.size()));
+        return h;
     }
 
     @GetMapping("/holidays/{id}")

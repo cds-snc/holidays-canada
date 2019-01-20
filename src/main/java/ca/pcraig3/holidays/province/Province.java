@@ -34,9 +34,9 @@ public class Province {
 
     protected Province() {}
 
-    Province(String id, String nameEn, String nameFr) {
+    protected Province(String id, String nameEn, String nameFr) {
         if(! isProvinceId(id))
-            throw new RuntimeException(String.format("Province '%s' is not a real province or territory.", id));
+            throw new RuntimeException(String.format("Error: '%s' is not a real province or territory.", id));
 
         this.id = id;
         this.nameEn = nameEn;
