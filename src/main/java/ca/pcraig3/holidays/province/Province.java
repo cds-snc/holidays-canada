@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,10 +35,20 @@ public class Province {
     protected Province() {}
 
     Province(String id, String nameEn, String nameFr) {
+        if(! isProvinceId(id))
+            throw new RuntimeException(String.format("Province '%s' is not a real province or territory.", id));
+
         this.id = id;
         this.nameEn = nameEn;
         this.nameFr = nameFr;
     }
+
+    public static String[] PROVINCE_IDS = { "AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT" };
+
+    public static boolean isProvinceId(String id) {
+        return Arrays.asList(PROVINCE_IDS).contains(id);
+    }
+
 
     public String getId() {
         return id;
