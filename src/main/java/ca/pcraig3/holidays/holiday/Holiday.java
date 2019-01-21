@@ -1,14 +1,15 @@
 package ca.pcraig3.holidays.holiday;
 
 import ca.pcraig3.holidays.province.Province;
+import com.joestelmach.natty.DateGroup;
+import com.joestelmach.natty.Parser;
 import lombok.ToString;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 @Table(name="HOLIDAY")
@@ -63,7 +64,16 @@ public class Holiday {
     }
 
     public String getDate() {
-        return date;
+
+        String _date = (this.date.equals("Monday on or before May 24")) ? "Monday before May 25" : this.date;
+
+        Parser parser = new Parser();
+        Date firstDate = parser.parse(_date).get(0).getDates().get(0);
+        // iso format : "yyyy-MM-dd'T'HH:mm:ss.SSSZ" (ie, 2019-01-01T00:00:00.000)
+        // spoken english format : "EEEE, MMMM d" (ie, Tuesday, January 1)
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d", Locale.CANADA);
+
+        return formatter.format(firstDate);
     }
 
     public String getNameEn() {
