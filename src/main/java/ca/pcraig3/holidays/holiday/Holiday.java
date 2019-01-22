@@ -43,7 +43,7 @@ public class Holiday {
             joinColumns = @JoinColumn(name = "HOLIDAY_ID"),
             inverseJoinColumns = @JoinColumn(name = "PROVINCE_ID")
     )
-    @JsonIgnoreProperties("holidays")
+    @JsonIgnoreProperties({ "holidays" , "nextHoliday" })
     @OrderBy
     private final Set<Province> provinces = new HashSet<>();
 
@@ -60,6 +60,10 @@ public class Holiday {
         this.nameFr = nameFr;
     }
 
+    public static Date str2Date(String dateString) {
+        return new Parser().parse(dateString).get(0).getDates().get(0);
+    }
+
     public Long getId() {
         return id;
     }
@@ -68,8 +72,7 @@ public class Holiday {
 
         String _date = (this.date.equals("Monday on or before May 24")) ? "Monday before May 25" : this.date;
 
-        Parser parser = new Parser();
-        Date firstDate = parser.parse(_date).get(0).getDates().get(0);
+        Date firstDate = str2Date(_date);
         // iso format : "yyyy-MM-dd'T'HH:mm:ss.SSSZ" (ie, 2019-01-01T00:00:00.000)
         // spoken english format : "EEEE, MMMM d" (ie, Tuesday, January 1)
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d", Locale.CANADA);

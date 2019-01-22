@@ -3,12 +3,11 @@ package ca.pcraig3.holidays.province;
 import ca.pcraig3.holidays.holiday.Holiday;
 import com.fasterxml.jackson.annotation.*;
 import lombok.ToString;
+import org.apache.commons.lang.time.DateUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="PROVINCE")
@@ -65,6 +64,23 @@ public class Province {
 
     public Set<Holiday> getHolidays() {
         return holidays;
+    }
+
+    @JsonIgnoreProperties("provinces")
+    public Holiday getNextHoliday() {
+        // get today's date at midnight
+        Date today = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+
+        for(Holiday holiday: this.holidays) {
+
+            // if today is before this holiday, then this is the next holiday
+            if (today.before(Holiday.str2Date(holiday.getDate()))) {
+                return holiday;
+            }
+        }
+
+        // TODO: what happens if there is no next date?
+        return null;
     }
 
     @Override
