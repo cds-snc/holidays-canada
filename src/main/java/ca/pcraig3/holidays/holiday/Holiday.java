@@ -1,7 +1,7 @@
 package ca.pcraig3.holidays.holiday;
 
 import ca.pcraig3.holidays.province.Province;
-import com.joestelmach.natty.DateGroup;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.joestelmach.natty.Parser;
 import lombok.ToString;
 import org.hibernate.annotations.Formula;
@@ -39,11 +39,11 @@ public class Holiday {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-
     @JoinTable(name = "HOLIDAY_PROVINCE",
             joinColumns = @JoinColumn(name = "HOLIDAY_ID"),
             inverseJoinColumns = @JoinColumn(name = "PROVINCE_ID")
     )
+    @JsonIgnoreProperties("holidays")
     private final Set<Province> provinces = new HashSet<>();
 
     @Formula("(SELECT COUNT(*) FROM HOLIDAY_PROVINCE hp WHERE hp.HOLIDAY_ID = ID) = 13")

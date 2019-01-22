@@ -1,7 +1,7 @@
 package ca.pcraig3.holidays.province;
 
 import ca.pcraig3.holidays.holiday.Holiday;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class Province {
     private String nameFr;
 
     @ManyToMany(mappedBy = "provinces")
-    @JsonIgnore
+    @JsonIgnoreProperties("provinces")
     private final Set<Holiday> holidays = new HashSet<>();
 
     protected Province() {}
