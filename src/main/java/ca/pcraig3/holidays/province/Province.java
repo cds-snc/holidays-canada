@@ -30,6 +30,7 @@ public class Province {
 
     @ManyToMany(mappedBy = "provinces")
     @JsonIgnoreProperties("provinces")
+    @OrderBy
     private final Set<Holiday> holidays = new HashSet<>();
 
     protected Province() {}

@@ -44,6 +44,7 @@ public class Holiday {
             inverseJoinColumns = @JoinColumn(name = "PROVINCE_ID")
     )
     @JsonIgnoreProperties("holidays")
+    @OrderBy
     private final Set<Province> provinces = new HashSet<>();
 
     @Formula("(SELECT COUNT(*) FROM HOLIDAY_PROVINCE hp WHERE hp.HOLIDAY_ID = ID) = 13")
