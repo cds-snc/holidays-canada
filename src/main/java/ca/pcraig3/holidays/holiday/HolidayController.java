@@ -1,6 +1,7 @@
 package ca.pcraig3.holidays.holiday;
 
 import ca.pcraig3.holidays.province.Province;
+import ca.pcraig3.holidays.province.ProvinceBadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class HolidayController {
 
             // make sure we have a valid province ID
             if(!Province.isProvinceId(provinceId))
-                throw new RuntimeException(String.format("Error: '%s' is not a valid Canadian postal abbreviation. Accepted options are: [%s].", provinceId, String.join(", ", Province.PROVINCE_IDS)));
+                throw new ProvinceBadRequestException(provinceId);
 
             List<Holiday> h = this.repository.findByProvinceId(provinceId);
             log.info(String.format("Get '/holidays' for province '%s'. Found: %d.", provinceId, h.size()));

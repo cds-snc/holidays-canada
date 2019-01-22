@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ProvinceNotFoundAdvice {
+public class ProvinceBadRequestAdvice {
 
     @ResponseBody
-    @ExceptionHandler(ProvinceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String provinceNotFoundHandler(ProvinceNotFoundException e) {
+    @ExceptionHandler(ProvinceBadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String provinceNotFoundHandler(ProvinceBadRequestException e) {
         return e.getMessage();
     }
 }

@@ -28,6 +28,6 @@ public class ProvinceController {
     Province one(@PathVariable String id) {
         log.info("Get '/provinces/" + id + "'");
 
-        return this.repository.findById(id.toUpperCase()).orElseThrow(() -> new ProvinceNotFoundException(id));
+        return this.repository.findById(id.toUpperCase()).orElseThrow(() -> new ProvinceBadRequestException(id));
     }
 }
