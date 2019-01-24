@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.pcraig3</groupId>
-	<artifactId>holidays</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>canada-holidays-api</artifactId>
+	<version>1.0.0</version>
 	<name>holidays</name>
-	<description>Statutory holidays</description>
+	<description>Statutory holidays in Canada</description>
 
 	<properties>
 		<java.version>11</java.version>
