@@ -4,10 +4,7 @@ import ca.pcraig3.holidays.province.Province;
 import ca.pcraig3.holidays.province.ProvinceBadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -15,6 +12,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@RequestMapping("/v1/holidays")
 public class HolidayController {
 
     private final HolidayRepository repository;
@@ -22,7 +20,7 @@ public class HolidayController {
         this.repository = repository;
     }
 
-    @GetMapping("/holidays")
+    @GetMapping
     HashMap<String, List<Holiday>> all(
             HttpServletRequest request,
             @RequestParam(value = "national", required=false) Boolean national,
@@ -57,7 +55,7 @@ public class HolidayController {
         return responseMap;
     }
 
-    @GetMapping("/holidays/{idParam}")
+    @GetMapping("/{idParam}")
     HashMap<String, Holiday> one(HttpServletRequest request, @PathVariable String idParam) {
         log.info(String.format("Get '%s'.", request.getRequestURI()));
         final Long id;

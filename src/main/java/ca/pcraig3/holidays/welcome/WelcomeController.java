@@ -28,7 +28,7 @@ public class WelcomeController {
 
     private HashMap<String, Object> getLinkMap(String key, String link) {
         HashMap<String, String> hrefMap = new HashMap<>();
-        hrefMap.put("href", String.format("%s%s", link, key));
+        hrefMap.put("href", String.format("%sv1/%s", link, key));
 
         HashMap<String, Object> responseMap = new HashMap<>();
         responseMap.put(key, hrefMap);

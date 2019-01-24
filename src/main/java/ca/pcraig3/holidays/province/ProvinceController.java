@@ -3,6 +3,7 @@ package ca.pcraig3.holidays.province;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@RequestMapping("/v1/provinces")
 public class ProvinceController {
 
     private final ProvinceRepository repository;
@@ -18,7 +20,7 @@ public class ProvinceController {
         this.repository = repository;
     }
 
-    @GetMapping("/provinces")
+    @GetMapping
     HashMap<String, List<Province>> all() {
         log.info("Get all '/provinces/'");
 
@@ -29,7 +31,7 @@ public class ProvinceController {
         return responseMap;
     }
 
-    @GetMapping("/provinces/{id}")
+    @GetMapping("/{id}")
     HashMap<String, Province> one(@PathVariable String id) {
         log.info("Get '/provinces/" + id + "'");
         Province province = this.repository.findById(id.toUpperCase()).orElseThrow(
