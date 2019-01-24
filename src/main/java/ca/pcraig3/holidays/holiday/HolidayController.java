@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,14 +23,16 @@ public class HolidayController {
     }
 
     @GetMapping("/holidays")
-    HashMap<String, List<Holiday>> all(@RequestParam(value = "national", required=false) Boolean national, @RequestParam(value = "province", required=false) String provinceId) {
+    HashMap<String, List<Holiday>> all(
+            HttpServletRequest request,
+            @RequestParam(value = "national", required=false) Boolean national,
+            @RequestParam(value = "province", required=false) String provinceId
+    ) {
         List<Holiday> holidays = null;
 
         if(national != null) {
-            String message = national ? "national" : "non-national";
-
             holidays = this.repository.findByIsNational(national);
-            log.info(String.format("Get all %s '/holidays'. Found: %d.", message, holidays.size()));
+            log.info(String.format("Get '%s'. Found: %d.", request.getRequestURI(), holidays.size()));
         }
 
         // string should not be null or empty
@@ -41,12 +44,12 @@ public class HolidayController {
                 throw new ProvinceBadRequestException(provinceId);
 
             holidays = this.repository.findByProvinceId(provinceId);
-            log.info(String.format("Get '/holidays' for province '%s'. Found: %d.", provinceId, holidays.size()));
+            log.info(String.format("Get '%s'. Found: %d.", request.getRequestURI(), holidays.size()));
         }
 
         if (holidays == null){
             holidays = this.repository.findAll();
-            log.info(String.format("Get all '/holidays'. Found: %d.", holidays.size()));
+            log.info(String.format("Get '%s'. Found: %d.", request.getRequestURI(), holidays.size()));
         }
 
         HashMap<String, List<Holiday>> responseMap = new HashMap<>();
@@ -55,9 +58,9 @@ public class HolidayController {
     }
 
     @GetMapping("/holidays/{idParam}")
-    HashMap<String, Holiday> one(@PathVariable String idParam) {
-        log.info("Get '/holidays/" + idParam + "'");
-        Long id;
+    HashMap<String, Holiday> one(HttpServletRequest request, @PathVariable String idParam) {
+        log.info(String.format("Get '%s'.", request.getRequestURI()));
+        final Long id;
 
         try {
             id = Long.parseLong(idParam);
