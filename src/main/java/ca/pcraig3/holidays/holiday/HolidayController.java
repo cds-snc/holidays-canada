@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -21,14 +22,14 @@ public class HolidayController {
     }
 
     @GetMapping("/holidays")
-    List<Holiday> all(@RequestParam(value = "national", required=false) Boolean national, @RequestParam(value = "province", required=false) String provinceId) {
+    HashMap<String, List<Holiday>> all(@RequestParam(value = "national", required=false) Boolean national, @RequestParam(value = "province", required=false) String provinceId) {
+        List<Holiday> holidays = null;
 
         if(national != null) {
             String message = national ? "national" : "non-national";
 
-            List<Holiday> h = this.repository.findByIsNational(national);
-            log.info(String.format("Get all %s '/holidays'. Found: %d.", message, h.size()));
-            return h;
+            holidays = this.repository.findByIsNational(national);
+            log.info(String.format("Get all %s '/holidays'. Found: %d.", message, holidays.size()));
         }
 
         // string should not be null or empty
@@ -39,21 +40,28 @@ public class HolidayController {
             if(!Province.isProvinceId(provinceId))
                 throw new ProvinceBadRequestException(provinceId);
 
-            List<Holiday> h = this.repository.findByProvinceId(provinceId);
-            log.info(String.format("Get '/holidays' for province '%s'. Found: %d.", provinceId, h.size()));
-            return h;
+            holidays = this.repository.findByProvinceId(provinceId);
+            log.info(String.format("Get '/holidays' for province '%s'. Found: %d.", provinceId, holidays.size()));
         }
 
+        if (holidays == null){
+            holidays = this.repository.findAll();
+            log.info(String.format("Get all '/holidays'. Found: %d.", holidays.size()));
+        }
 
-        List<Holiday> h = this.repository.findAll();
-        log.info(String.format("Get all '/holidays'. Found: %d.", h.size()));
-        return h;
+        HashMap<String, List<Holiday>> responseMap = new HashMap<>();
+        responseMap.put("holidays", holidays);
+        return responseMap;
     }
 
     @GetMapping("/holidays/{id}")
-    Holiday one(@PathVariable Long id) {
+    HashMap<String, Holiday> one(@PathVariable Long id) {
         log.info("Get '/holidays/" + id + "'");
-        return this.repository.findById(id).orElseThrow(() -> new HolidayNotFoundException(id));
+        Holiday holiday = this.repository.findById(id).orElseThrow(() -> new HolidayNotFoundException(id));
+
+        HashMap<String, Holiday> responseMap = new HashMap<>();
+        responseMap.put("holiday", holiday);
+        return responseMap;
     }
 
 }
