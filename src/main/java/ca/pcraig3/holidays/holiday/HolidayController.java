@@ -54,9 +54,18 @@ public class HolidayController {
         return responseMap;
     }
 
-    @GetMapping("/holidays/{id}")
-    HashMap<String, Holiday> one(@PathVariable Long id) {
-        log.info("Get '/holidays/" + id + "'");
+    @GetMapping("/holidays/{idParam}")
+    HashMap<String, Holiday> one(@PathVariable String idParam) {
+        log.info("Get '/holidays/" + idParam + "'");
+        Long id;
+
+        try {
+            id = Long.parseLong(idParam);
+        }
+        catch(NumberFormatException e) {
+            throw new NumberFormatException("Error: '" + idParam + "' is not an integer value.");
+        }
+
         Holiday holiday = this.repository.findById(id).orElseThrow(() -> new HolidayNotFoundException(id));
 
         HashMap<String, Holiday> responseMap = new HashMap<>();
