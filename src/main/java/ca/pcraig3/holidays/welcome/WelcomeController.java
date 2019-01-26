@@ -17,6 +17,7 @@ public class WelcomeController {
         HashMap<String, Object> linkMap = new HashMap<>();
         linkMap.putAll(getLinkMap("provinces", request.getRequestURL().toString()));
         linkMap.putAll(getLinkMap("holidays", request.getRequestURL().toString()));
+        linkMap.putAll(getLinkMap("self", request.getRequestURL().toString()));
 
         HashMap<String, Object> responseMap = new HashMap<>();
         responseMap.put("info", "Hello / Bonjour! Welcome to the Canadian holidays API | Bienvenue dans l’API canadienne des jours fériés");
@@ -28,7 +29,7 @@ public class WelcomeController {
 
     private HashMap<String, Object> getLinkMap(String key, String link) {
         HashMap<String, String> hrefMap = new HashMap<>();
-        hrefMap.put("href", String.format("%sv1/%s", link, key));
+        hrefMap.put("href", String.format("%s%s", link, key.equals("self") ? "" : "v1/" + key));
 
         HashMap<String, Object> responseMap = new HashMap<>();
         responseMap.put(key, hrefMap);
