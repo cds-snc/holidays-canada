@@ -16,12 +16,9 @@ public class WelcomeController {
     HashMap<String, Object> one(HttpServletRequest request) {
         log.info(String.format("Get '%s'", request.getRequestURI()));
 
-        HashMap<String, Object> linkMap = new HashMap<>(Links.getLinkMap("root", request.getRequestURL().toString()));
-
         HashMap<String, Object> responseMap = new HashMap<>();
         responseMap.put("message", "Hello / Bonjour! Welcome to the Canadian holidays API | Bienvenue dans l’API canadienne des jours fériés");
-        responseMap.put("_links", linkMap);
-
+        responseMap.put("_links", Links.getLinkMap("root", request.getRequestURL().toString()));
 
         return responseMap;
     }

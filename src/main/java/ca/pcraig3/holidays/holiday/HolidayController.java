@@ -1,5 +1,6 @@
 package ca.pcraig3.holidays.holiday;
 
+import ca.pcraig3.holidays.Links;
 import ca.pcraig3.holidays.province.Province;
 import ca.pcraig3.holidays.province.ProvinceBadRequestException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +22,13 @@ public class HolidayController {
     }
 
     @GetMapping
-    HashMap<String, List<Holiday>> all(
+    HashMap<String, Object> all(
             HttpServletRequest request,
             @RequestParam(value = "national", required=false) Boolean national,
             @RequestParam(value = "province", required=false) String provinceId
     ) {
         List<Holiday> holidays = null;
+        String key = "holidays";
 
         if(national != null) {
             holidays = this.repository.findByIsNational(national);
@@ -50,15 +52,17 @@ public class HolidayController {
             log.info(String.format("Get '%s'. Found: %d.", request.getRequestURI(), holidays.size()));
         }
 
-        HashMap<String, List<Holiday>> responseMap = new HashMap<>();
-        responseMap.put("holidays", holidays);
+        HashMap<String, Object> responseMap = new HashMap<>();
+        responseMap.put(key, holidays);
+        responseMap.put("_links", Links.getLinkMap(key, request.getRequestURL().toString()));
         return responseMap;
     }
 
     @GetMapping("/{idParam}")
-    HashMap<String, Holiday> one(HttpServletRequest request, @PathVariable String idParam) {
+    HashMap<String, Object> one(HttpServletRequest request, @PathVariable String idParam) {
         log.info(String.format("Get '%s'.", request.getRequestURI()));
         final Long id;
+        String key = "holiday";
 
         try {
             id = Long.parseLong(idParam);
@@ -69,8 +73,10 @@ public class HolidayController {
 
         Holiday holiday = this.repository.findById(id).orElseThrow(() -> new HolidayNotFoundException(id));
 
-        HashMap<String, Holiday> responseMap = new HashMap<>();
-        responseMap.put("holiday", holiday);
+        HashMap<String, Object> responseMap = new HashMap<>();
+        responseMap.put(key, holiday);
+        responseMap.put("_links", Links.getLinkMap(key, request.getRequestURL().toString()));
+
         return responseMap;
     }
 

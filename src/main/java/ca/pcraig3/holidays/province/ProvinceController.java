@@ -25,27 +25,27 @@ public class ProvinceController {
     @GetMapping
     HashMap<String, Object> all(HttpServletRequest request) {
         log.info("Get all '/provinces/'");
-        HashMap<String, Object> linkMap = new HashMap<>(Links.getLinkMap("provinces", request.getRequestURL().toString()));
+        String key = "provinces";
 
         List<Province> provinces = this.repository.findAll();
 
         HashMap<String, Object> responseMap = new HashMap<>();
-        responseMap.put("provinces", provinces);
-        responseMap.put("_links", linkMap);
+        responseMap.put(key, provinces);
+        responseMap.put("_links", Links.getLinkMap(key, request.getRequestURL().toString()));
         return responseMap;
     }
 
     @GetMapping("/{id}")
     HashMap<String, Object> one(HttpServletRequest request, @PathVariable String id) {
         log.info("Get '/provinces/" + id + "'");
-        HashMap<String, Object> linkMap = new HashMap<>(Links.getLinkMap("province", request.getRequestURL().toString()));
+        String key = "province";
 
         Province province = this.repository.findById(id.toUpperCase()).orElseThrow(
                 () -> new ProvinceBadRequestException(id));
 
         HashMap<String, Object> responseMap = new HashMap<>();
-        responseMap.put("province", province);
-        responseMap.put("_links", linkMap);
+        responseMap.put(key, province);
+        responseMap.put("_links", Links.getLinkMap(key, request.getRequestURL().toString()));
 
         return responseMap;
     }
