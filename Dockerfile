@@ -1,6 +1,8 @@
 # Start with a base image containing Java runtime
 FROM openjdk:11-jdk-slim
 
+ARG FILENAME
+
 # Add Maintainer Info
 LABEL maintainer="paul.craig@cds-snc.ca"
 
@@ -11,7 +13,8 @@ VOLUME /tmp
 EXPOSE 8080
 
 # The application's jar file
-ARG JAR_FILE=target/canada-holidays-api-1.0.0.jar
+#ARG JAR_FILE=target/canada-holidays-api-1.0.0.jar
+ARG JAR_FILE=target/$FILENAME.jar
 
 # Add the application's jar to the container
 ADD ${JAR_FILE} app.jar
