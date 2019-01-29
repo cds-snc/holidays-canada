@@ -13,7 +13,6 @@ VOLUME /tmp
 EXPOSE 8080
 
 # The application's jar file
-#ARG JAR_FILE=target/canada-holidays-api-1.0.0.jar
 ARG JAR_FILE=target/$FILENAME.jar
 
 # Add the application's jar to the container
