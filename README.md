@@ -7,6 +7,7 @@ This is an API that lists
 - all 28 public holidays in Canada
 - all 13 provinces and territories in Canada
 - which provinces/territories observe which holidays
+- which holidays are federal holidays
 
 I scraped the data from [the Canadian holidays page on Wikipedia](https://en.wikipedia.org/wiki/Public_holidays_in_Canada), so if you notice an issue, please edit the page yourself and then [email me](mailto:paul@pcraig3.ca) so that I know.
 

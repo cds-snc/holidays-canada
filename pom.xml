@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ca.pcraig3</groupId>
 	<artifactId>public-holidays-in-canada-api</artifactId>
-	<version>1.0.3</version>
+	<version>1.1.0</version>
 	<name>holidays-canada</name>
 	<description>API for the Public holidays in Canada, as listed on Wikipedia: https://en.wikipedia.org/wiki/Public_holidays_in_Canada</description>
 
