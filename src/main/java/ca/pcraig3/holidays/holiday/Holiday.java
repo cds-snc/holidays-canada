@@ -4,6 +4,7 @@ import ca.pcraig3.holidays.province.Province;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.joestelmach.natty.Parser;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -32,6 +33,10 @@ public class Holiday {
     @NotNull
     @Column(name="NAME_FR")
     private String nameFr;
+
+    @Column(name = "FEDERAL")
+    @ColumnDefault("FALSE")
+    private boolean federal;
 
     @ManyToMany(
             fetch = FetchType.EAGER,
@@ -93,6 +98,8 @@ public class Holiday {
     }
 
     public boolean getNational() { return isNational; }
+
+    public boolean getFederal() { return federal; }
 
     @Override
     public boolean equals(Object o) {
