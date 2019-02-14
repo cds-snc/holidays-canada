@@ -25,13 +25,17 @@ public class HolidayController {
     HashMap<String, Object> all(
             HttpServletRequest request,
             @RequestParam(value = "national", required=false) Boolean national,
-            @RequestParam(value = "province", required=false) String provinceId
+            @RequestParam(value = "province", required=false) String provinceId,
+            @RequestParam(value = "federal", required=false) Boolean federal
     ) {
         List<Holiday> holidays = null;
         String key = "holidays";
 
         if(national != null) {
             holidays = this.repository.findByIsNational(national);
+            log.info(String.format("Get '%s'. Found: %d.", request.getRequestURI(), holidays.size()));
+        } else if(federal != null) {
+            holidays = this.repository.findByFederal(federal);
             log.info(String.format("Get '%s'. Found: %d.", request.getRequestURI(), holidays.size()));
         }
 

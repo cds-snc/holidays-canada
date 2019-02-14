@@ -9,6 +9,8 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
 
     List<Holiday> findByIsNational(Boolean national);
 
+    List<Holiday> findByFederal(Boolean federal);
+
     @Query("select h from Holiday h " +
             "join h.provinces province " +
             "where province.id = ?1")
