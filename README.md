@@ -267,7 +267,7 @@ To run locally:
 ./mvnw clean spring-boot:run
 ```
 
-And then visit [http://localhost:8080/](http://localhost:8080/).
+And then visit [http://localhost:80/](http://localhost:80/).
 
 #### Running as a container
 
@@ -279,6 +279,6 @@ To run (locally) as a Docker container:
 ./run.sh              # starts up the container on port 80
 ```
 
-The Docker container exposes port 80, so check it out at [http://localhost/](http://localhost/).
+The Docker container exposes port 80, so check it out at [http://localhost/](http://localhost:80/).
 
 Easy.
