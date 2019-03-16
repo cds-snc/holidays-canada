@@ -1,6 +1,5 @@
 #!/bin/bash
 
-version="$(xpath pom.xml //project/version/text\(\))"
 artifactId="$(xpath pom.xml //project/artifactId/text\(\))"
 
-docker build --build-arg FILENAME=$artifactId-$version -t cdssnc/holidays-canada .
+docker build --build-arg ARTIFACT_ID=$artifactId -t cdssnc/holidays-canada .
