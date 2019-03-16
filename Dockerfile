@@ -16,7 +16,7 @@ EXPOSE 80
 ARG JAR_FILE=target/$FILENAME.jar
 
 # Add the application's jar to the container
-ADD ${JAR_FILE} app.jar
+COPY ${JAR_FILE} app.jar
 
 # Run the jar file
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
