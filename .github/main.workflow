@@ -1,7 +1,7 @@
 workflow "Build on push" {
   on = "push"
   resolves = [
-    "Push container to Docker Hub"
+    "Deploy from DockerHub to Azure App Service"
   ]
 }
 
@@ -9,21 +9,21 @@ action "Lint Dockerfile" {
   uses = "docker://cdssnc/docker-lint"
 }
 
-action "If master branch" {
+action "If workflow branch" {
   uses = "actions/bin/filter@24a566c2524e05ebedadef0a285f72dc9b631411"
   needs = ["Lint Dockerfile"]
-  args = "branch master"
+  args = "branch workflow"
 }
 
 action "Login into Docker Hub" {
   uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["If master branch"]
+  needs = ["If workflow branch"]
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
 action "Maven clean install" {
   uses = "pcraig3/action-maven-cli/jdk11@master"
-  needs = ["If master branch"]
+  needs = ["If workflow branch"]
   args = "clean install"
 }
 
@@ -51,3 +51,16 @@ action "Push container to Docker Hub" {
   args = "push cdssnc/holidays-canada"
 }
 
+action "Login to Azure" {
+  uses = "Azure/github-actions/login@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
+  needs = ["Push container to Docker Hub"]
+  secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
+}
+
+action "Deploy from DockerHub to Azure App Service" {
+  uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
+  needs = ["Login to Azure"]
+  env = {
+    AZURE_SCRIPT = "az webapp create --resource-group az-next-rg --plan holidaysPlan --name holidays-canada-demo --deployment-container-image-name cdssnc/holidays-canada:$GITHUB_SHA"
+  }
+}
