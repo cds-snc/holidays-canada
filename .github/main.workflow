@@ -1,7 +1,7 @@
 workflow "Build on push" {
   on = "push"
   resolves = [
-    "Deploy from DockerHub to Azure App Service"
+    "Update container image in Azure App Service for Containers",
   ]
 }
 
@@ -57,10 +57,10 @@ action "Login to Azure" {
   secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
 }
 
-action "Deploy from DockerHub to Azure App Service" {
+action "Update container image in Azure App Service for Containers" {
   uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   needs = ["Login to Azure"]
   env = {
-    AZURE_SCRIPT = "az webapp create --resource-group az-next-rg --plan holidaysPlan --name holidays-canada-demo --deployment-container-image-name cdssnc/holidays-canada:$GITHUB_SHA"
+    AZURE_SCRIPT = "az webapp create --resource-group cdscracollab-innovation-rg --plan holidaysPlan --name holidays-canada --deployment-container-image-name cdssnc/holidays-canada:$GITHUB_SHA"
   }
 }
