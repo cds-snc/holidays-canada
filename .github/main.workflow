@@ -22,7 +22,7 @@ action "Login into Docker Hub" {
 }
 
 action "Maven clean install" {
-  uses = "pcraig3/action-maven-cli/jdk11@master"
+  uses = "xlui/action-maven-cli/jdk11@18bbe92f79e2aba73a7dab743c84638c85db321b"
   needs = ["If master branch"]
   args = "clean install"
 }
