@@ -61,6 +61,6 @@ action "Update container image in Azure App Service for Containers" {
   uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   needs = ["Login to Azure"]
   env = {
-    AZURE_SCRIPT = "az webapp create --resource-group cdscracollab-innovation-rg --plan holidaysPlan --name holidays-canada --deployment-container-image-name cdssnc/holidays-canada:$GITHUB_SHA"
+    AZURE_SCRIPT = "az webapp config container set --resource-group cdscracollab-innovation-rg --name holidays-canada --docker-custom-image-name cdssnc/holidays-canada:$GITHUB_SHA"
   }
 }
