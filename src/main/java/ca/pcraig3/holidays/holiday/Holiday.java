@@ -75,9 +75,12 @@ public class Holiday {
 
     public String getDate() {
 
+        // without this, the API starts returning holidays for next year prematurely
+        String currentYear = " 2019";
+
         String _date = (this.date.equals("Monday on or before May 24")) ? "Monday before May 25" : this.date;
 
-        Date firstDate = str2Date(_date);
+        Date firstDate = str2Date(_date + currentYear);
         // iso format : "yyyy-MM-dd'T'HH:mm:ss.SSSZ" (ie, 2019-01-01T00:00:00.000)
         // spoken english format : "EEEE, MMMM d" (ie, Tuesday, January 1)
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
