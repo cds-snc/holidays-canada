@@ -5,13 +5,10 @@ on:
       - master
 jobs:
   deploy:
-
     name: Build and deploy
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Lint Dockerfile
-      uses: docker://cdssnc/docker-lint
     - name: Maven clean install
       uses: xlui/action-maven-cli/jdk11@18bbe92f79e2aba73a7dab743c84638c85db321b
       with:
