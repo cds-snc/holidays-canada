@@ -1,0 +1,52 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Maven clean install
+      uses: xlui/action-maven-cli/jdk11@18bbe92f79e2aba73a7dab743c84638c85db321b
+      with:
+        args: clean install
+    - name: Build a Docker container
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: '"build --build-arg ARTIFACT_ID=public-holidays-in-canada-api -t base
+          ."'
+    - name: Tag :latest
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: tag base cdssnc/holidays-canada:latest
+    - name: If master branch
+      uses: actions/bin/filter@24a566c2524e05ebedadef0a285f72dc9b631411
+      with:
+        args: branch master
+    - name: Tag :$GITHUB_SHA
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: tag base cdssnc/holidays-canada:${{ github.sha }}
+    - name: Login into Docker Hub
+      uses: actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      env:
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    - name: Push container to Docker Hub
+      uses: actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108
+      with:
+        args: push cdssnc/holidays-canada
+    - name: Login to Azure
+      uses: Azure/github-actions/login@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4
+      env:
+        AZURE_SERVICE_APP_ID: ${{ secrets.AZURE_SERVICE_APP_ID }}
+        AZURE_SERVICE_PASSWORD: ${{ secrets.AZURE_SERVICE_PASSWORD }}
+        AZURE_SERVICE_TENANT: ${{ secrets.AZURE_SERVICE_TENANT }}
+    - name: Update container image in Azure App Service for Containers
+      uses: Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4
+      env:
+        AZURE_SCRIPT: az webapp config container set --resource-group cdscracollab-innovation-rg
+          --name holidays-canada --docker-custom-image-name cdssnc/holidays-canada:$GITHUB_SHA
